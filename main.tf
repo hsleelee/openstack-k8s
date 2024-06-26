@@ -125,6 +125,7 @@ module "k8_masters_vms" {
   server_group = openstack_compute_servergroup_v2.k8_masters
   image_source = {
      image_id = data.openstack_images_image_v2.coreos40.id
+     volume_id = ""
   }   
 #  image_id = data.openstack_images_image_v2.coreos40.id
   flavor_id = var.flavor_id
@@ -149,6 +150,7 @@ module "k8_workers_vms" {
   server_group = openstack_compute_servergroup_v2.k8_workers
   image_source = {
      image_id = data.openstack_images_image_v2.coreos40.id
+     volume_id = ""
   } 
 #  image_id = data.openstack_images_image_v2.coreos40.id
 #  flavor_id = module.reference_infra.flavors.generic_medium.id
