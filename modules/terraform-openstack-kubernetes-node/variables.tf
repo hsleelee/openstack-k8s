@@ -1,14 +1,3 @@
-variable "openstack_adm_pwd" {
-  description = "Openstack Admin Password"
-
-}
-
-variable "openstack_api_url" {
-  description = "지역별로 구성된 Openstack api url"
-  default     = "http://172.17.250.195:5000"
-}
-
-
 variable "name" {
   description = "Name of the vm"
   type        = string
