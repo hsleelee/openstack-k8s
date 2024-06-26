@@ -172,6 +172,7 @@ module "k8_lb_tunnel_vms" {
   server_group = openstack_compute_servergroup_v2.k8_lb_tunnel
   image_source = {
      image_id = data.openstack_images_image_v2.coreos40.id
+     volume_id = ""
   } 
   #image_id = data.openstack_images_image_v2.coreos40.id
   flavor_id = var.flavor_id
@@ -221,6 +222,7 @@ module "k8_lb_vms" {
   server_group = openstack_compute_servergroup_v2.k8_lb
   image_source = {
      image_id = data.openstack_images_image_v2.coreos40.id
+     volume_id = ""
   } 
   #flavor_id = module.reference_infra.flavors.generic_micro.id
   flavor_id = var.flavor_id
