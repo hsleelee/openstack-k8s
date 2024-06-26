@@ -333,12 +333,12 @@ resource "openstack_networking_secgroup_rule_v2" "k8_worker_client_access" {
   security_group_id = openstack_networking_secgroup_v2.k8_worker.id
 }
 
-resource "openstack_networking_secgroup_rule_v2" "workers_to_spark_driver_dynamic_port" {
-  direction         = "egress"
-  ethertype         = "IPv4"
-  protocol          = "tcp"
-  port_range_min    = 1
-  port_range_max    = 65535
-  remote_group_id   = openstack_networking_secgroup_v2.automation_server_bastion.id
-  security_group_id = openstack_networking_secgroup_v2.k8_worker.id
-}
+# resource "openstack_networking_secgroup_rule_v2" "workers_to_spark_driver_dynamic_port" {
+#   direction         = "egress"
+#   ethertype         = "IPv4"
+#   protocol          = "tcp"
+#   port_range_min    = 1
+#   port_range_max    = 65535
+#   remote_group_id   = openstack_networking_secgroup_v2.automation_server_bastion.id
+#   security_group_id = openstack_networking_secgroup_v2.k8_worker.id
+# }
