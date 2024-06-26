@@ -15,12 +15,18 @@ data "openstack_images_image_v2" "coreos40" {
 
 
 resource "openstack_compute_keypair_v2" "k8" {
-  name = "myproject-k8"
+  name = var.keypair_name
 }
 
 module "k8_security_groups" {
   source = "./modules/terraform-openstack-kubernetes-security-groups"
-  namespace = "myproject"
+#  namespace = "myproject"
+
+master_group_name = "myproject-master-secgrp"
+worker_group_name = "myproject-worker-secgrp"
+load_balancer_group_name = "myproject-load_balancer-secgrp"
+load_balancer_tunnel_group_name = "myproject-load_balancer_tunnel-secgrp"
+
 }
 
 resource "tls_private_key" "k8_server_ssh_rsa" {
@@ -138,7 +144,8 @@ module "k8_workers_vms" {
   source = "./modules/terraform-openstack-kubernetes-node"
   count = local.k8_workers_count
   name = "myproject-kubernetes-worker-${count.index + 1}"
-  network_ports = openstack_networking_port_v2.k8_workers[count.index]
+  network_ports = [{id = openstack_networking_port_v2.k8_workers[count.index]}]  
+#  network_ports = openstack_networking_port_v2.k8_workers[count.index]
   server_group = openstack_compute_servergroup_v2.k8_workers
   image_source = {
      image_id = data.openstack_images_image_v2.coreos40.id
