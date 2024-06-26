@@ -117,7 +117,10 @@ module "k8_masters_vms" {
   name = "myproject-kubernetes-master-${count.index + 1}"
   network_port = openstack_networking_port_v2.k8_masters[count.index]
   server_group = openstack_compute_servergroup_v2.k8_masters
-  image_id = data.openstack_images_image_v2.coreos40.id
+  image_source = {
+     image_id = data.openstack_images_image_v2.coreos40.id
+  }   
+#  image_id = data.openstack_images_image_v2.coreos40.id
   flavor_id = module.reference_infra.flavors.generic_micro.id
   keypair_name = openstack_compute_keypair_v2.k8.name
   ssh_host_key_rsa = {
@@ -136,7 +139,10 @@ module "k8_workers_vms" {
   name = "myproject-kubernetes-worker-${count.index + 1}"
   network_port = openstack_networking_port_v2.k8_workers[count.index]
   server_group = openstack_compute_servergroup_v2.k8_workers
-  image_id = data.openstack_images_image_v2.coreos40.id
+  image_source = {
+     image_id = data.openstack_images_image_v2.coreos40.id
+  } 
+#  image_id = data.openstack_images_image_v2.coreos40.id
   flavor_id = module.reference_infra.flavors.generic_medium.id
   keypair_name = openstack_compute_keypair_v2.k8.name
   ssh_host_key_rsa = {
@@ -155,7 +161,10 @@ module "k8_lb_tunnel_vms" {
   name = "myproject-kubernetes-lb-tunnel-${count.index + 1}"
   network_port = openstack_networking_port_v2.k8_lb_tunnel[count.index]
   server_group = openstack_compute_servergroup_v2.k8_lb_tunnel
-  image_id = data.openstack_images_image_v2.coreos40.id
+  image_source = {
+     image_id = data.openstack_images_image_v2.coreos40.id
+  } 
+  #image_id = data.openstack_images_image_v2.coreos40.id
   flavor_id = module.reference_infra.flavors.generic_micro.id
   keypair_name = openstack_compute_keypair_v2.k8.name
   ssh_host_key_rsa = {
@@ -200,7 +209,9 @@ module "k8_lb_vms" {
   name = "myproject-kubernetes-lb-${count.index + 1}"
   network_port = openstack_networking_port_v2.k8_lb[count.index]
   server_group = openstack_compute_servergroup_v2.k8_lb
-  image_id = data.openstack_images_image_v2.coreos40.id
+  image_source = {
+     image_id = data.openstack_images_image_v2.coreos40.id
+  } 
   flavor_id = module.reference_infra.flavors.generic_micro.id
   keypair_name = openstack_compute_keypair_v2.k8.name
   ssh_host_key_rsa = {
