@@ -14,7 +14,7 @@ server_group={
 image_source = {image_id="c6bb9bb8-bbaa-473a-a744-370293bfa35b",volume_id=""}
 
 #ID of the flavor the bastion will run on or name
-flavor_id = "7c2fadd8-c684-4462-826d-a5e6fc3822a6"
+flavor_id = "139da05c-8fed-423e-a1e1-edaf734834c5"
 #flavor_name = ""
 
 #Network port to assign to the node. Should be of type openstack_networking_port_v2
