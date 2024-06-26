@@ -67,7 +67,7 @@ resource "openstack_compute_servergroup_v2" "k8_lb" {
 resource "openstack_networking_port_v2" "k8_workers" {
   count              = local.k8_masters_count
   name               = "myproject-k8-workers-${count.index + 1}"
-  network_id         = module.reference_infra.networks.internal.id
+  network_id         = "a0fd76a8-5a65-46e1-9579-7221276cd321" #module.reference_infra.networks.internal.id
   security_group_ids = [
     module.k8_security_groups.groups.worker.id,
   ]
@@ -77,7 +77,7 @@ resource "openstack_networking_port_v2" "k8_workers" {
 resource "openstack_networking_port_v2" "k8_masters" {
   count              = local.k8_workers_count
   name               = "myproject-k8-masters-${count.index + 1}"
-  network_id         = module.reference_infra.networks.internal.id
+  network_id         = "a0fd76a8-5a65-46e1-9579-7221276cd321" #module.reference_infra.networks.internal.id
   security_group_ids = [module.k8_security_groups.groups.master.id]
   admin_state_up     = true
 }
@@ -85,7 +85,7 @@ resource "openstack_networking_port_v2" "k8_masters" {
 resource "openstack_networking_port_v2" "k8_lb_tunnel" {
   count              = local.k8_lb_tunnel_count
   name               = "myproject-k8-lb-tunnel-${count.index + 1}"
-  network_id         = module.reference_infra.networks.internal.id
+  network_id         = "a0fd76a8-5a65-46e1-9579-7221276cd321" #module.reference_infra.networks.internal.id
   security_group_ids = [module.k8_security_groups.groups.load_balancer_tunnel.id]
   admin_state_up     = true
 }
@@ -93,29 +93,29 @@ resource "openstack_networking_port_v2" "k8_lb_tunnel" {
 resource "openstack_networking_port_v2" "k8_lb" {
   count              = local.k8_lb_count
   name               = "myproject-k8-lb-${count.index + 1}"
-  network_id         = module.reference_infra.networks.internal.id
+  network_id         =  "a0fd76a8-5a65-46e1-9579-7221276cd321" #module.reference_infra.networks.internal.id
   security_group_ids = [module.k8_security_groups.groups.load_balancer.id]
   admin_state_up     = true
 }
 
-module "k8_domain" {
-  source = "./modules/terraform-openstack-zonefile"
-  domain = "myproject.com"
-  container = local.dns.bucket_name
-  dns_server_name = "ns.myproject.com"
-  a_records = concat([
-    for master in openstack_networking_port_v2.k8_masters: {
-      prefix = "masters"
-      ip = master.all_fixed_ips.0
-    }
-  ],
-  [
-    for worker in openstack_networking_port_v2.k8_workers: {
-      prefix = "workers"
-      ip = worker.all_fixed_ips.0
-    } 
-  ])
-}
+# module "k8_domain" {
+#   source = "./modules/terraform-openstack-zonefile"
+#   domain = "myproject.com"
+#   container = local.dns.bucket_name
+#   dns_server_name = "ns.myproject.com"
+#   a_records = concat([
+#     for master in openstack_networking_port_v2.k8_masters: {
+#       prefix = "masters"
+#       ip = master.all_fixed_ips.0
+#     }
+#   ],
+#   [
+#     for worker in openstack_networking_port_v2.k8_workers: {
+#       prefix = "workers"
+#       ip = worker.all_fixed_ips.0
+#     } 
+#   ])
+# }
 
 module "k8_masters_vms" {
   source = "./modules/terraform-openstack-kubernetes-node"
