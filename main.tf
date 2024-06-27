@@ -132,7 +132,7 @@ module "k8_masters_vms" {
      volume_id = ""
   }   
 #  image_id = data.openstack_images_image_v2.coreos40.id
-  flavor_id = var.flavor_id
+  flavor_id = "1af082ad-4893-4641-83be-3e2e297d0451" #var.flavor_id 8-16-200
 #  flavor_id = module.reference_infra.flavors.generic_micro.id
   keypair_name = openstack_compute_keypair_v2.k8.name
   ssh_host_key_rsa = {
@@ -181,7 +181,7 @@ module "k8_lb_tunnel_vms" {
      volume_id = ""
   } 
   #image_id = data.openstack_images_image_v2.coreos40.id
-  flavor_id = var.flavor_id
+  flavor_id = "ca295cf2-64aa-4adf-b5b2-75e8b581f99b" #var.flavor_id
 #  flavor_id = module.reference_infra.flavors.generic_micro.id
   keypair_name = openstack_compute_keypair_v2.k8.name
   ssh_host_key_rsa = {
@@ -231,7 +231,7 @@ module "k8_lb_vms" {
      volume_id = ""
   } 
   #flavor_id = module.reference_infra.flavors.generic_micro.id
-  flavor_id = var.flavor_id
+  flavor_id = "ca295cf2-64aa-4adf-b5b2-75e8b581f99b" #var.flavor_id
   keypair_name = openstack_compute_keypair_v2.k8.name
   ssh_host_key_rsa = {
     public = tls_private_key.k8_server_ssh_rsa.public_key_openssh
