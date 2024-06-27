@@ -39,13 +39,13 @@ resource "tls_private_key" "k8_server_ssh_rsa" {
 }
 
 resource "local_file" "k8_server_ssh_rsa_pubkey" {
-  content         = tls_private_key.k8_server_ssh_rsa.public_key_openssh
+  content         = tls_private_key.k8_server_ssh_rsa.public_key_pem
   filename        = "k8_server_ssh_rsa_pubkey.pem"
   file_permission = "0600"
 }
 
 resource "local_file" "k8_server_ssh_rsa_prikey" {
-  content         = tls_private_key.k8_server_ssh_rsa.private_key_openssh
+  content         = tls_private_key.k8_server_ssh_rsa.private_key_pem
   filename        = "k8_server_ssh_rsa_prikey.pem"
   file_permission = "0600"
 }
@@ -56,13 +56,13 @@ resource "tls_private_key" "k8_server_ssh_ecdsa" {
 }
 
 resource "local_file" "k8_server_ssh_ecdsa_pubkey" {
-  content         = tls_private_key.k8_server_ssh_ecdsa.public_key_openssh
+  content         = tls_private_key.k8_server_ssh_ecdsa.public_key_pem
   filename        = "k8_server_ssh_ecdsa_pubkey.pem"
   file_permission = "0600"
 }
 
 resource "local_file" "k8_server_ssh_ecdsa_prikey" {
-  content         = tls_private_key.k8_server_ssh_ecdsa.private_key_openssh
+  content         = tls_private_key.k8_server_ssh_ecdsa.private_key_pem
   filename        = "k8_server_ssh_ecdsa_prikey.pem"
   file_permission = "0600"
 }
@@ -73,13 +73,13 @@ resource "tls_private_key" "k8_tunnel_client_ssh" {
 }
 
 resource "local_file" "k8_tunnel_client_ssh_pubkey" {
-  content         = tls_private_key.k8_tunnel_client_ssh.public_key_openssh
+  content         = tls_private_key.k8_tunnel_client_ssh.public_key_pem 
   filename        = "k8_tunnel_client_ssh_pubkey.pem"
   file_permission = "0600"
 }
 
 resource "local_file" "k8_tunnel_client_ssh_prikey" {
-  content         = tls_private_key.k8_tunnel_client_ssh.private_key_openssh
+  content         = tls_private_key.k8_tunnel_client_ssh.private_key_pem
   filename        = "k8_tunnel_client_ssh_prikey.pem"
   file_permission = "0600"
 }
