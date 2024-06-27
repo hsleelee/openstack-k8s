@@ -8,7 +8,7 @@ locals {
   k8_lb_count = 1
   dns = {
      bucket_name = "datacentric_folder",
-     nameserver_ips = ["10.10.0.28"]  
+     nameserver_ips = ["10.10.0.46"]  
   }
 }
 
