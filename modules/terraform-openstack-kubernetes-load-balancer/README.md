@@ -152,9 +152,9 @@ resource "openstack_networking_port_v2" "k8_lb" {
 
 module "k8_domain" {
   source = "git::https://github.com/Ferlab-Ste-Justine/terraform-openstack-zonefile.git?ref=v0.1.0"
-  domain = "datacentric.com"
+  domain = "datacentric.dev"
   container = local.dns.bucket_name
-  dns_server_name = "ns.datacentric.com"
+  dns_server_name = "ns.datacentric.dev"
   a_records = concat([
     for master in openstack_networking_port_v2.k8_masters: {
       prefix = "masters"
@@ -233,7 +233,7 @@ module "k8_lb_tunnel_vms" {
   }
   kubernetes = {
     nameserver_ips = local.dns.nameserver_ips
-    domain = "datacentric.com"
+    domain = "datacentric.dev"
     masters = {
       max_count = 7
       api_timeout = "5m"
@@ -271,7 +271,7 @@ module "k8_lb_vms" {
   }
   kubernetes = {
     nameserver_ips = local.dns.nameserver_ips
-    domain = "datacentric.com"
+    domain = "datacentric.dev"
     masters = {
       max_count = 7
       api_timeout = "5m"

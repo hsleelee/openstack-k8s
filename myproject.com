@@ -1,6 +1,6 @@
-$ORIGIN datacentric.com.
+$ORIGIN datacentric.dev.
 $TTL 5
-@	IN	SOA ns.datacentric.com no-op.datacentric.com. (
+@	IN	SOA ns.datacentric.dev no-op.datacentric.dev. (
 				1719463252 ; serial
 				7200             ; refresh (2 hours), only affects secondary dns servers
 				3600             ; retry (1 hour), only affects secondary dns servers
