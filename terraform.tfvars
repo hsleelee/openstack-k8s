@@ -1,10 +1,10 @@
 
 openstack_adm_pwd = ""                 #  Opestanck  정보 확인 후 수정 필요
 
-openstack_api_url = "" #  Opestanck  정보 확인 후 수정 필요
+openstack_api_url = "http://172.17.250.195:5000" #  Opestanck  정보 확인 후 수정 필요
 
 # vm name
-name = "bstn-host"
+#name = "bstn-host"
 
 server_group={
     id          = "d27ee6b9-ef1a-4462-b8d1-0c08b5c5541e" 
