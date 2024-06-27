@@ -2,8 +2,8 @@ server_group={
     id          = "d27ee6b9-ef1a-4462-b8d1-0c08b5c5541e" 
   }
 
-# os image 
-image_source = {image_id="c6bb9bb8-bbaa-473a-a744-370293bfa35b",volume_id=""}
+# os image c6bb9bb8-bbaa-473a-a744-370293bfa35b
+image_source = {image_id="67ccb087-dcda-4067-98b1-cac7fa1ad0ea",volume_id=""}
 
 #ID of the flavor the bastion will run on or name
 flavor_id = "139da05c-8fed-423e-a1e1-edaf734834c5"
