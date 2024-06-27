@@ -88,10 +88,7 @@ resource "openstack_compute_instance_v2" "k8_node" {
     time_sleep.wait
   ]
   
-  triggers = {
-    buildtime = timestamp()
-  }
-
+ 
   name      = var.name
   image_id  = var.image_source.image_id != "" ? var.image_source.image_id : null
   flavor_id = var.flavor_id
