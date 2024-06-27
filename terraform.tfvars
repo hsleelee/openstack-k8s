@@ -1,6 +1,4 @@
 
-openstack_adm_pwd = ""                 #  Opestanck  정보 확인 후 수정 필요
-
 openstack_api_url = "http://172.17.250.195:5000" #  Opestanck  정보 확인 후 수정 필요
 
 # vm name
