@@ -124,7 +124,7 @@ module "k8_masters_vms" {
   source = "./modules/terraform-openstack-kubernetes-node"
   count = local.k8_masters_count
   name = "myproject-kubernetes-master-${count.index + 1}"
-  network_ports = [{id = openstack_networking_port_v2.k8_masters[count.index]}]  
+  network_ports = [{id = openstack_networking_port_v2.k8_masters[count.index]},]  
   server_group = openstack_compute_servergroup_v2.k8_masters
   image_source = {
      image_id = data.openstack_images_image_v2.coreos40.id
@@ -148,7 +148,7 @@ module "k8_workers_vms" {
   source = "./modules/terraform-openstack-kubernetes-node"
   count = local.k8_workers_count
   name = "myproject-kubernetes-worker-${count.index + 1}"
-  network_ports = [{id = openstack_networking_port_v2.k8_workers[count.index]}]  
+  network_ports = [{id = openstack_networking_port_v2.k8_workers[count.index]},]  
 #  network_ports = openstack_networking_port_v2.k8_workers[count.index]
   server_group = openstack_compute_servergroup_v2.k8_workers
   image_source = {

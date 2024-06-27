@@ -1,6 +1,5 @@
 variable "openstack_adm_pwd" {
   description = "Openstack Admin Password"
-
 }
 
 variable "openstack_api_url" {
@@ -9,10 +8,10 @@ variable "openstack_api_url" {
 }
 
 
-variable "name" {
-  description = "Name of the vm"
-  type        = string
-}
+# variable "name" {
+#   description = "Name of the vm"
+#   type        = string
+# }
 
 variable "network_ports" {
   type = list(object({
