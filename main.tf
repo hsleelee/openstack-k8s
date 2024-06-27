@@ -6,6 +6,9 @@ locals {
   k8_workers_count = 3
   k8_lb_tunnel_count = 1
   k8_lb_count = 1
+  dns = {
+     nameserver_ips = [""]  
+  }
 }
 
 data "openstack_images_image_v2" "coreos40" {
@@ -69,7 +72,7 @@ resource "openstack_networking_port_v2" "k8_workers" {
   name               = "myproject-k8-workers-${count.index + 1}"
   network_id         = "a0fd76a8-5a65-46e1-9579-7221276cd321" #module.reference_infra.networks.internal.id
   security_group_ids = [
-    module.k8_security_groups.groups.worker.id,
+    module.k8_security_groups.worker_security_group.id,
   ]
   admin_state_up     = true
 }
@@ -78,7 +81,7 @@ resource "openstack_networking_port_v2" "k8_masters" {
   count              = local.k8_workers_count
   name               = "myproject-k8-masters-${count.index + 1}"
   network_id         = "a0fd76a8-5a65-46e1-9579-7221276cd321" #module.reference_infra.networks.internal.id
-  security_group_ids = [module.k8_security_groups.groups.master.id]
+  security_group_ids = [module.k8_security_groups.master_security_group.id]
   admin_state_up     = true
 }
 
@@ -86,7 +89,7 @@ resource "openstack_networking_port_v2" "k8_lb_tunnel" {
   count              = local.k8_lb_tunnel_count
   name               = "myproject-k8-lb-tunnel-${count.index + 1}"
   network_id         = "a0fd76a8-5a65-46e1-9579-7221276cd321" #module.reference_infra.networks.internal.id
-  security_group_ids = [module.k8_security_groups.groups.load_balancer_tunnel.id]
+  security_group_ids = [module.k8_security_groups.load_balancer_tunnel_security_group.id]
   admin_state_up     = true
 }
 
@@ -94,7 +97,7 @@ resource "openstack_networking_port_v2" "k8_lb" {
   count              = local.k8_lb_count
   name               = "myproject-k8-lb-${count.index + 1}"
   network_id         =  "a0fd76a8-5a65-46e1-9579-7221276cd321" #module.reference_infra.networks.internal.id
-  security_group_ids = [module.k8_security_groups.groups.load_balancer.id]
+  security_group_ids = [module.k8_security_groups.load_balancer_security_group.id]
   admin_state_up     = true
 }
 
