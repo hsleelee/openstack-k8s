@@ -73,6 +73,16 @@ data "template_cloudinit_config" "user_data" {
 }
  
 
+resource "time_sleep" "wait" {
+#  depends_on = [ 
+#  ]
+  triggers = {
+    buildtime = timestamp()
+  }
+  create_duration = "120s"
+ 
+} 
+
 resource "openstack_compute_instance_v2" "k8_node" {
   name      = var.name
   image_id  = var.image_source.image_id != "" ? var.image_source.image_id : null
