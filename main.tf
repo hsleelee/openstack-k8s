@@ -149,7 +149,7 @@ module "k8_workers_vms" {
   source = "./modules/terraform-openstack-kubernetes-node"
   count = local.k8_workers_count
   name = "myproject-kubernetes-worker-${count.index + 1}"
-  network_ports.id =  openstack_networking_port_v2.k8_workers[count.index].id 
+  network_ports =  [{ id=openstack_networking_port_v2.k8_workers[count.index].id}] 
 #  network_ports = openstack_networking_port_v2.k8_workers[count.index]
   server_group = openstack_compute_servergroup_v2.k8_workers
   image_source = {
