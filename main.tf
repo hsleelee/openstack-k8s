@@ -12,7 +12,7 @@ locals {
 }
 
 data "openstack_images_image_v2" "coreos40" {
-  name        = "Fedora-CoreOS-40"
+  name        = "ubuntu-22.04-jammy-server-amd64"  #"Fedora-CoreOS-40"
   most_recent = true 
 }
 
