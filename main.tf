@@ -102,24 +102,24 @@ resource "openstack_networking_port_v2" "k8_lb" {
   admin_state_up     = true
 }
 
-# module "k8_domain" {
-#   source = "./modules/terraform-openstack-zonefile"
-#   domain = "myproject.com"
-#   container = local.dns.bucket_name
-#   dns_server_name = "ns.myproject.com"
-#   a_records = concat([
-#     for master in openstack_networking_port_v2.k8_masters: {
-#       prefix = "masters"
-#       ip = master.all_fixed_ips.0
-#     }
-#   ],
-#   [
-#     for worker in openstack_networking_port_v2.k8_workers: {
-#       prefix = "workers"
-#       ip = worker.all_fixed_ips.0
-#     } 
-#   ])
-# }
+module "k8_domain" {
+  source = "./modules/terraform-openstack-zonefile"
+  domain = "myproject.com"
+  container = local.dns.bucket_name
+  dns_server_name = "ns.myproject.com"
+  a_records = concat([
+    for master in openstack_networking_port_v2.k8_masters: {
+      prefix = "masters"
+      ip = master.all_fixed_ips.0
+    }
+  ],
+  [
+    for worker in openstack_networking_port_v2.k8_workers: {
+      prefix = "workers"
+      ip = worker.all_fixed_ips.0
+    } 
+  ])
+}
 
 module "k8_masters_vms" {
   source = "./modules/terraform-openstack-kubernetes-node"
