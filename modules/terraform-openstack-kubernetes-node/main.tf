@@ -79,7 +79,7 @@ resource "time_sleep" "wait" {
   triggers = {
     buildtime = timestamp()
   }
-  create_duration = "360s"
+  create_duration = "180s"
  
 } 
 
