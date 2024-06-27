@@ -17,7 +17,7 @@ network_ports =  [{
   }]
 
 #Name of the external keypair that will be used to ssh to the bastion
-keypair_name = "datacentric_adm_key" 
+keypair_name = "datacentric_k8s_key" 
 
 #Value of the private part of the ssh keypair that the bastion will use to ssh on instances
 #internal_private_key = ""
