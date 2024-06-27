@@ -79,11 +79,19 @@ resource "time_sleep" "wait" {
   triggers = {
     buildtime = timestamp()
   }
-  create_duration = "120s"
+  create_duration = "360s"
  
 } 
 
 resource "openstack_compute_instance_v2" "k8_node" {
+  depends_on = [ 
+    time_sleep.wait
+  ]
+  
+  triggers = {
+    buildtime = timestamp()
+  }
+
   name      = var.name
   image_id  = var.image_source.image_id != "" ? var.image_source.image_id : null
   flavor_id = var.flavor_id
