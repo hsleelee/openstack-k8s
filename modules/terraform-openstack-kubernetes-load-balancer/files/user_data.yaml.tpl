@@ -104,14 +104,14 @@ runcmd:
   - systemctl enable docker
   - docker run -d --restart=always --name=k8_masters_load_balancer --network=host -v /opt/haproxy:/usr/local/etc/haproxy:ro haproxy:2.2.14
   #Install prometheus node exporter as a binary managed as a systemd service
-  - wget -O /opt/node_exporter.tar.gz https://github.com/prometheus/node_exporter/releases/download/v1.3.0/node_exporter-1.3.0.linux-amd64.tar.gz
-  - mkdir -p /opt/node_exporter
-  - tar zxvf /opt/node_exporter.tar.gz -C /opt/node_exporter
-  - cp /opt/node_exporter/node_exporter-1.3.0.linux-amd64/node_exporter /usr/local/bin/node_exporter
-  - chown node-exporter:node-exporter /usr/local/bin/node_exporter
-  - rm -r /opt/node_exporter && rm /opt/node_exporter.tar.gz
-  - systemctl enable node-exporter
-  - systemctl start node-exporter
+  # - wget -O /opt/node_exporter.tar.gz https://github.com/prometheus/node_exporter/releases/download/v1.3.0/node_exporter-1.3.0.linux-amd64.tar.gz
+  # - mkdir -p /opt/node_exporter
+  # - tar zxvf /opt/node_exporter.tar.gz -C /opt/node_exporter
+  # - cp /opt/node_exporter/node_exporter-1.3.0.linux-amd64/node_exporter /usr/local/bin/node_exporter
+  # - chown node-exporter:node-exporter /usr/local/bin/node_exporter
+  # - rm -r /opt/node_exporter && rm /opt/node_exporter.tar.gz
+  # - systemctl enable node-exporter
+  # - systemctl start node-exporter
 %{ if tunnel.enabled ~}
   - cat /opt/tunnel_ssh_entry >> /etc/ssh/sshd_config
   - rm /opt/tunnel_ssh_entry
