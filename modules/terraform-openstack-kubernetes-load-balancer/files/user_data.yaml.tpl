@@ -90,6 +90,7 @@ packages:
   - chrony
 %{ endif ~}
 runcmd:
+  - echo "nameserver 8.8.8.8" >> /etc/resolv.conf
   #Finalize Chrony Setup
 %{ if chrony.enabled ~}
   - cp /opt/chrony.conf /etc/chrony/chrony.conf

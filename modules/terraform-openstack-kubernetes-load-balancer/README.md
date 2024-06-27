@@ -73,12 +73,12 @@ locals {
 }
 
 resource "openstack_compute_keypair_v2" "k8" {
-  name = "myproject-k8"
+  name = "datacentric-k8"
 }
 
 module "k8_security_groups" {
   source = "git::https://github.com/Ferlab-Ste-Justine/terraform-openstack-kubernetes-security-groups.git?ref=v0.1.0"
-  namespace = "myproject"
+  namespace = "datacentric"
 }
 
 resource "tls_private_key" "k8_server_ssh_rsa" {
@@ -97,28 +97,28 @@ resource "tls_private_key" "k8_tunnel_client_ssh" {
 }
 
 resource "openstack_compute_servergroup_v2" "k8_masters" {
-  name     = "myproject-k8-master"
+  name     = "datacentric-k8-master"
   policies = ["soft-anti-affinity"]
 }
 
 resource "openstack_compute_servergroup_v2" "k8_workers" {
-  name     = "myproject-k8-worker"
+  name     = "datacentric-k8-worker"
   policies = ["soft-anti-affinity"]
 }
 
 resource "openstack_compute_servergroup_v2" "k8_lb_tunnel" {
-  name     = "myproject-k8-lb-tunnel"
+  name     = "datacentric-k8-lb-tunnel"
   policies = ["soft-anti-affinity"]
 }
 
 resource "openstack_compute_servergroup_v2" "k8_lb" {
-  name     = "myproject-k8-lb"
+  name     = "datacentric-k8-lb"
   policies = ["soft-anti-affinity"]
 }
 
 resource "openstack_networking_port_v2" "k8_workers" {
   count              = local.k8_masters_count
-  name               = "myproject-k8-workers-${count.index + 1}"
+  name               = "datacentric-k8-workers-${count.index + 1}"
   network_id         = module.reference_infra.networks.internal.id
   security_group_ids = [
     module.k8_security_groups.groups.worker.id,
@@ -128,7 +128,7 @@ resource "openstack_networking_port_v2" "k8_workers" {
 
 resource "openstack_networking_port_v2" "k8_masters" {
   count              = local.k8_workers_count
-  name               = "myproject-k8-masters-${count.index + 1}"
+  name               = "datacentric-k8-masters-${count.index + 1}"
   network_id         = module.reference_infra.networks.internal.id
   security_group_ids = [module.k8_security_groups.groups.master.id]
   admin_state_up     = true
@@ -136,7 +136,7 @@ resource "openstack_networking_port_v2" "k8_masters" {
 
 resource "openstack_networking_port_v2" "k8_lb_tunnel" {
   count              = local.k8_lb_tunnel_count
-  name               = "myproject-k8-lb-tunnel-${count.index + 1}"
+  name               = "datacentric-k8-lb-tunnel-${count.index + 1}"
   network_id         = module.reference_infra.networks.internal.id
   security_group_ids = [module.k8_security_groups.groups.load_balancer_tunnel.id]
   admin_state_up     = true
@@ -144,7 +144,7 @@ resource "openstack_networking_port_v2" "k8_lb_tunnel" {
 
 resource "openstack_networking_port_v2" "k8_lb" {
   count              = local.k8_lb_count
-  name               = "myproject-k8-lb-${count.index + 1}"
+  name               = "datacentric-k8-lb-${count.index + 1}"
   network_id         = module.reference_infra.networks.internal.id
   security_group_ids = [module.k8_security_groups.groups.load_balancer.id]
   admin_state_up     = true
@@ -152,9 +152,9 @@ resource "openstack_networking_port_v2" "k8_lb" {
 
 module "k8_domain" {
   source = "git::https://github.com/Ferlab-Ste-Justine/terraform-openstack-zonefile.git?ref=v0.1.0"
-  domain = "myproject.com"
+  domain = "datacentric.com"
   container = local.dns.bucket_name
-  dns_server_name = "ns.myproject.com"
+  dns_server_name = "ns.datacentric.com"
   a_records = concat([
     for master in openstack_networking_port_v2.k8_masters: {
       prefix = "masters"
@@ -172,7 +172,7 @@ module "k8_domain" {
 module "k8_masters_vms" {
   source = "git::https://github.com/Ferlab-Ste-Justine/terraform-openstack-kubernetes-node.git?ref=v0.1.0"
   count = local.k8_masters_count
-  name = "myproject-kubernetes-master-${count.index + 1}"
+  name = "datacentric-kubernetes-master-${count.index + 1}"
   network_port = openstack_networking_port_v2.k8_masters[count.index]
   server_group = openstack_compute_servergroup_v2.k8_masters
   image_id = data.openstack_images_image_v2.ubuntu_focal.id
@@ -191,7 +191,7 @@ module "k8_masters_vms" {
 module "k8_workers_vms" {
   source = "git::https://github.com/Ferlab-Ste-Justine/terraform-openstack-kubernetes-node.git?ref=v0.1.0"
   count = local.k8_workers_count
-  name = "myproject-kubernetes-worker-${count.index + 1}"
+  name = "datacentric-kubernetes-worker-${count.index + 1}"
   network_port = openstack_networking_port_v2.k8_workers[count.index]
   server_group = openstack_compute_servergroup_v2.k8_workers
   image_id = data.openstack_images_image_v2.ubuntu_focal.id
@@ -210,7 +210,7 @@ module "k8_workers_vms" {
 module "k8_lb_tunnel_vms" {
   source = "git::https://github.com/Ferlab-Ste-Justine/terraform-openstack-kubernetes-load-balancer.git"
   count = local.k8_lb_tunnel_count
-  name = "myproject-kubernetes-lb-tunnel-${count.index + 1}"
+  name = "datacentric-kubernetes-lb-tunnel-${count.index + 1}"
   network_port = openstack_networking_port_v2.k8_lb_tunnel[count.index]
   server_group = openstack_compute_servergroup_v2.k8_lb_tunnel
   image_id = data.openstack_images_image_v2.ubuntu_focal.id
@@ -233,7 +233,7 @@ module "k8_lb_tunnel_vms" {
   }
   kubernetes = {
     nameserver_ips = local.dns.nameserver_ips
-    domain = "myproject.com"
+    domain = "datacentric.com"
     masters = {
       max_count = 7
       api_timeout = "5m"
@@ -255,7 +255,7 @@ module "k8_lb_tunnel_vms" {
 module "k8_lb_vms" {
   source = "git::https://github.com/Ferlab-Ste-Justine/terraform-openstack-kubernetes-load-balancer.git"
   count = local.k8_lb_count
-  name = "myproject-kubernetes-lb-${count.index + 1}"
+  name = "datacentric-kubernetes-lb-${count.index + 1}"
   network_port = openstack_networking_port_v2.k8_lb[count.index]
   server_group = openstack_compute_servergroup_v2.k8_lb
   image_id = data.openstack_images_image_v2.ubuntu_focal.id
@@ -271,7 +271,7 @@ module "k8_lb_vms" {
   }
   kubernetes = {
     nameserver_ips = local.dns.nameserver_ips
-    domain = "myproject.com"
+    domain = "datacentric.com"
     masters = {
       max_count = 7
       api_timeout = "5m"
