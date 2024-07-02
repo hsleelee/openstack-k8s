@@ -13,7 +13,7 @@ locals {
         content      = templatefile(
           "${path.module}/files/user_data.yaml.tpl",
           {
-            node_name            = var.name
+            node_name            = "${var.name}.datacentric.dev"
             chrony               = var.chrony
             ssh_host_key_rsa     = var.ssh_host_key_rsa
             ssh_host_key_ecdsa   = var.ssh_host_key_ecdsa
@@ -89,7 +89,7 @@ resource "openstack_compute_instance_v2" "k8_node" {
   ]
   
  
-  name      = var.name
+  name      = "${var.name}.datacentric.dev"
   image_id  = var.image_source.image_id != "" ? var.image_source.image_id : null
   flavor_id = var.flavor_id
   key_pair  = var.keypair_name

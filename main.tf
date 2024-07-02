@@ -161,7 +161,7 @@ module "k8_domain" {
 module "k8_masters_vms" {
   source = "./modules/terraform-openstack-kubernetes-node"
   count = local.k8_masters_count
-  name = "datacentric-kubernetes-master-${count.index + 1}"
+  name = "master-${count.index + 1}"
   network_ports = [{id=openstack_networking_port_v2.k8_masters[count.index].id}] 
   server_group = openstack_compute_servergroup_v2.k8_masters
   image_source = {
@@ -185,7 +185,7 @@ module "k8_masters_vms" {
 module "k8_workers_vms" {
   source = "./modules/terraform-openstack-kubernetes-node"
   count = local.k8_workers_count
-  name = "datacentric-kubernetes-worker-${count.index + 1}"
+  name = "worker-${count.index + 1}"
   network_ports =  [{ id=openstack_networking_port_v2.k8_workers[count.index].id}] 
 #  network_ports = openstack_networking_port_v2.k8_workers[count.index]
   server_group = openstack_compute_servergroup_v2.k8_workers
@@ -210,7 +210,7 @@ module "k8_workers_vms" {
 module "k8_lb_tunnel_vms" {
   source = "./modules/terraform-openstack-kubernetes-load-balancer"
   count = local.k8_lb_tunnel_count
-  name = "datacentric-kubernetes-lb-tunnel-${count.index + 1}"
+  name = "lb-tunnel-${count.index + 1}"
   network_port = openstack_networking_port_v2.k8_lb_tunnel[count.index]
   server_group = openstack_compute_servergroup_v2.k8_lb_tunnel
   image_source = {
@@ -260,7 +260,7 @@ module "k8_lb_tunnel_vms" {
 module "k8_lb_vms" {
   source = "./modules/terraform-openstack-kubernetes-load-balancer"
   count = local.k8_lb_count
-  name = "datacentric-kubernetes-lb-${count.index + 1}"
+  name = "lb-${count.index + 1}"
   network_port = openstack_networking_port_v2.k8_lb[count.index]
   server_group = openstack_compute_servergroup_v2.k8_lb
   image_source = {

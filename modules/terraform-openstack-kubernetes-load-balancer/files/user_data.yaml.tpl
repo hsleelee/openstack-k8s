@@ -89,13 +89,13 @@ packages:
 %{ if chrony.enabled ~}
   - chrony
 %{ endif ~}
-runcmd:
-  - echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+runcmd: 
   #Finalize Chrony Setup
 %{ if chrony.enabled ~}
   - cp /opt/chrony.conf /etc/chrony/chrony.conf
   - systemctl restart chrony.service 
 %{ endif ~}
+  - sudo echo "nameserver 8.8.8.8" >> /etc/resolv.conf
   #Install k8 api load balancer as a background docker container
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
   - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
